@@ -1,3 +1,4 @@
 .amplifyrc
+.env
 .venv
 amplify/
