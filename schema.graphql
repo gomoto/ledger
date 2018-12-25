@@ -1,0 +1,13 @@
+schema {
+  query: Query
+}
+
+type Query {
+  getLedgerEntries: [LedgerEntry]
+}
+
+type LedgerEntry {
+  id: ID!
+  amount: Float
+  creator: String
+}
