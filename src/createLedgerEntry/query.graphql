@@ -1,0 +1,5 @@
+mutation {
+  createLedgerEntry(amount: 1.23, creator: "ryan@abc.com") {
+    id
+  }
+}
