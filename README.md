@@ -2,9 +2,21 @@
 
 ## Develop
 
-### Prerequisites
+### AWS prerequisites
 
-1. awscli
+1. Create AppSync API
+
+2. Create DynamoDB table
+
+### Local prerequisites
+
+1. Install awscli
+
+2. Create file `.env`:
+
+```bash
+APPSYNC_API_ID=33ehqlzy35a4jn2xt2wu7jadei
+```
 
 ### GraphQL Schema
 
