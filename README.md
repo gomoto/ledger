@@ -15,7 +15,9 @@
 2. Create file `.env`:
 
 ```bash
-APPSYNC_API_ID=33ehqlzy35a4jn2xt2wu7jadei
+APPSYNC_API_ID=xxx
+APPSYNC_API_KEY=xxx
+APPSYNC_API_URL=https://xxx.appsync-api.<region>.amazonaws.com/graphql
 ```
 
 ### GraphQL Schema
@@ -32,3 +34,7 @@ scripts/update-schema.sh
     "details": "Successfully created schema with 3 types."
 }
 ```
+
+### Make sample queries
+
+env $(cat .env | xargs) node_modules/.bin/ts-node src/getLedgerEntries/query.ts
