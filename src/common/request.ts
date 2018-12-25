@@ -1,21 +1,25 @@
 import fetch from 'node-fetch';
 import { HttpError } from './http-error';
+import { getEnvironmentVariable } from '../common/get-environment-variable';
 
 export interface IRequestOptions {
-  apiKey: string;
   query: string;
-  url: string;
 }
 
 interface IResponse<T> {
   data: T;
 }
 
+/**
+ * Send request to AppSync GraphQL server.
+ */
 export async function request<T>(options: IRequestOptions): Promise<T> {
-  const response = await fetch(options.url, {
+  const url = getEnvironmentVariable('APPSYNC_API_URL');
+  const apiKey = getEnvironmentVariable('APPSYNC_API_KEY');
+  const response = await fetch(url, {
     method: 'POST',
     headers: {
-      'X-Api-Key': options.apiKey,
+      'X-Api-Key': apiKey,
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     },
