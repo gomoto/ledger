@@ -1,9 +1,17 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Query {
   getLedgerEntries: [LedgerEntry]
+}
+
+type Mutation {
+  createLedgerEntry(
+    amount: Float
+    creator: String
+  ): LedgerEntry
 }
 
 type LedgerEntry {
