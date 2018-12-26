@@ -27,7 +27,7 @@ Edit [schema file](./schema.graphql).
 Push file to AWS AppSync:
 
 ```bash
-scripts/update-schema.sh
+src/schema/save-schema.sh
 # Response
 {
     "status": "SUCCESS",
