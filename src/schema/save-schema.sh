@@ -2,7 +2,7 @@
 
 source .env
 
-aws appsync start-schema-creation --api-id $APPSYNC_API_ID --definition file://$(pwd)/schema.graphql > /dev/null
+aws appsync start-schema-creation --api-id $APPSYNC_API_ID --definition file://$(pwd)/src/schema/schema.graphql > /dev/null
 
 if [ $? -ne 0 ]; then
   echo "Failed to save schema"
