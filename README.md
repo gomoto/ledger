@@ -21,18 +21,18 @@ APPSYNC_API_KEY=xxx
 APPSYNC_API_URL=https://xxx.appsync-api.<region>.amazonaws.com/graphql
 ```
 
-### GraphQL Schema
+### Working with the GraphQL Schema
 
-Edit [schema file](./schema.graphql).
+1. Edit [schema file](./src/schema.graphql).
 
-Push file to AWS AppSync:
+2. Push file to AWS AppSync:
 
 ```bash
-src/schema/save-schema.sh
+env $(cat .env | xargs) node_modules/.bin/ts-node scripts/save-schema.ts
 # Response
 {
     "status": "SUCCESS",
-    "details": "Successfully created schema with 3 types."
+    "details": "Successfully created schema with 4 types."
 }
 ```
 
