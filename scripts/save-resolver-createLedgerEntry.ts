@@ -1,6 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { saveResolver } from './save-resolver';
+import { saveResolver } from './core/save-resolver';
 
 async function main() {
   const response = await saveResolver({

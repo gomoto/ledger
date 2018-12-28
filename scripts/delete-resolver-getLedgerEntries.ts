@@ -1,4 +1,4 @@
-import { deleteResolver } from './delete-resolver';
+import { deleteResolver } from './core/delete-resolver';
 
 async function main() {
   const response = await deleteResolver({
