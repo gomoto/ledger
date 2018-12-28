@@ -1,5 +1,4 @@
 .amplifyrc
 .env
-.venv
 amplify/
 node_modules/

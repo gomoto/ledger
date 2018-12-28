@@ -10,11 +10,12 @@
 
 ### Local prerequisites
 
-1. Install awscli
-
-2. Create file `.env`:
+1. Create file `.env`:
 
 ```bash
+AWS_ACCESS_KEY_ID=xxx
+AWS_SECRET_ACCESS_KEY=xxx
+AWS_REGION=us-west-2
 APPSYNC_API_ID=xxx
 APPSYNC_API_KEY=xxx
 APPSYNC_API_URL=https://xxx.appsync-api.<region>.amazonaws.com/graphql
