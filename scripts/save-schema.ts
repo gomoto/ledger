@@ -23,8 +23,7 @@ const getSchemaCreationStatusRequest: AppSync.GetSchemaCreationStatusRequest = {
 };
 
 async function main() {
-  const startSchemaCreationResponse = await startSchemaCreation(startSchemaCreationRequest);
-  console.log(startSchemaCreationResponse);
+  await startSchemaCreation(startSchemaCreationRequest);
   while (true) {
     const getSchemaCreationStatusResponse = await getSchemaCreationStatus(getSchemaCreationStatusRequest);
     if (getSchemaCreationStatusResponse.status !== 'PROCESSING') {
