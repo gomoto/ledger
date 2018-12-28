@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "@types/node-fetch": "2.1.4",
+    "aws-sdk": "2.382.0",
     "node-fetch": "2.3.0",
     "ts-node": "7.0.1",
     "typescript": "3.2.2"
