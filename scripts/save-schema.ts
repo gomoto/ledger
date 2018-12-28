@@ -15,7 +15,7 @@ const getSchemaCreationStatus = promisify<AppSync.GetSchemaCreationStatusRequest
 
 const startSchemaCreationRequest: AppSync.StartSchemaCreationRequest = {
   apiId: process.env.APPSYNC_API_ID,
-  definition: fs.readFileSync(path.resolve(__dirname, '../src/schema/schema.graphql')),
+  definition: fs.readFileSync(path.resolve(__dirname, '../src/schema.graphql')),
 };
 
 const getSchemaCreationStatusRequest: AppSync.GetSchemaCreationStatusRequest = {
