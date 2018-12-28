@@ -12,13 +12,15 @@ const getSchemaCreationStatus = promisify<AppSync.GetSchemaCreationStatusRequest
 const getResolver = promisify<AppSync.GetResolverRequest, AppSync.GetResolverResponse>(appsync.getResolver.bind(appsync));
 const createResolver = promisify<AppSync.CreateResolverRequest, AppSync.CreateResolverResponse>(appsync.createResolver.bind(appsync));
 const updateResolver = promisify<AppSync.UpdateResolverRequest, AppSync.UpdateResolverResponse>(appsync.updateResolver.bind(appsync));
+const deleteResolver = promisify<AppSync.DeleteResolverRequest, AppSync.DeleteResolverResponse>(appsync.deleteResolver.bind(appsync));
 
 const configuredAppSync = {
+  startSchemaCreation,
+  getSchemaCreationStatus,
   getResolver,
   createResolver,
   updateResolver,
-  startSchemaCreation,
-  getSchemaCreationStatus,
+  deleteResolver,
 }
 
 export { configuredAppSync as appsync }
