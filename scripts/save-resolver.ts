@@ -3,7 +3,7 @@
 import { AppSync }  from 'aws-sdk';
 import * as fs from 'fs';
 import * as path from 'path';
-import { configuredAppSync as appsync } from './aws-appsync';
+import { appsync } from './aws-appsync';
 
 async function main() {
   // First, does resolver already exist?

@@ -13,10 +13,12 @@ const getResolver = promisify<AppSync.GetResolverRequest, AppSync.GetResolverRes
 const createResolver = promisify<AppSync.CreateResolverRequest, AppSync.CreateResolverResponse>(appsync.createResolver.bind(appsync));
 const updateResolver = promisify<AppSync.UpdateResolverRequest, AppSync.UpdateResolverResponse>(appsync.updateResolver.bind(appsync));
 
-export const configuredAppSync = {
+const configuredAppSync = {
   getResolver,
   createResolver,
   updateResolver,
   startSchemaCreation,
   getSchemaCreationStatus,
 }
+
+export { configuredAppSync as appsync }

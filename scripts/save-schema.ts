@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import { sleep } from './sleep';
-import { configuredAppSync as appsync } from './aws-appsync';
+import { appsync } from './aws-appsync';
 
 async function main() {
   // Save schema
