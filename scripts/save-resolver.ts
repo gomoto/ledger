@@ -3,17 +3,7 @@
 import { AppSync }  from 'aws-sdk';
 import * as fs from 'fs';
 import * as path from 'path';
-import { promisify } from 'util';
-
-const appsync = new AppSync({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
-
-const getResolver = promisify<AppSync.GetResolverRequest, AppSync.GetResolverResponse>(appsync.getResolver.bind(appsync));
-const createResolver = promisify<AppSync.CreateResolverRequest, AppSync.CreateResolverResponse>(appsync.createResolver.bind(appsync));
-const updateResolver = promisify<AppSync.UpdateResolverRequest, AppSync.UpdateResolverResponse>(appsync.updateResolver.bind(appsync));
+import { configuredAppSync as appsync } from './aws-appsync';
 
 async function main() {
   // First, does resolver already exist?
@@ -24,7 +14,7 @@ async function main() {
       typeName: 'Query',
       fieldName: 'getLedgerEntries',
     };
-    await getResolver(getResolverRequest);
+    await appsync.getResolver(getResolverRequest);
     doesResolverExist = true;
   } catch (e) {
     doesResolverExist = false;
@@ -40,9 +30,9 @@ async function main() {
   };
   let response: AppSync.CreateResolverResponse | AppSync.UpdateResolverResponse;
   if (doesResolverExist) {
-    response = await updateResolver(createOrUpdateResolverRequest);
+    response = await appsync.updateResolver(createOrUpdateResolverRequest);
   } else {
-    response = await createResolver(createOrUpdateResolverRequest);
+    response = await appsync.createResolver(createOrUpdateResolverRequest);
   }
   console.log('Saved resolver');
   console.log(response);

@@ -1,17 +1,8 @@
 import { AppSync }  from 'aws-sdk';
 import * as fs from 'fs';
 import * as path from 'path';
-import { promisify } from 'util';
 import { sleep } from './sleep';
-
-const appsync = new AppSync({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-  region: process.env.AWS_REGION,
-});
-
-const startSchemaCreation = promisify<AppSync.StartSchemaCreationRequest, AppSync.StartSchemaCreationResponse>(appsync.startSchemaCreation.bind(appsync));
-const getSchemaCreationStatus = promisify<AppSync.GetSchemaCreationStatusRequest, AppSync.GetSchemaCreationStatusResponse>(appsync.getSchemaCreationStatus.bind(appsync));
+import { configuredAppSync as appsync } from './aws-appsync';
 
 const startSchemaCreationRequest: AppSync.StartSchemaCreationRequest = {
   apiId: process.env.APPSYNC_API_ID,
@@ -23,9 +14,9 @@ const getSchemaCreationStatusRequest: AppSync.GetSchemaCreationStatusRequest = {
 };
 
 async function main() {
-  await startSchemaCreation(startSchemaCreationRequest);
+  await appsync.startSchemaCreation(startSchemaCreationRequest);
   while (true) {
-    const getSchemaCreationStatusResponse = await getSchemaCreationStatus(getSchemaCreationStatusRequest);
+    const getSchemaCreationStatusResponse = await appsync.getSchemaCreationStatus(getSchemaCreationStatusRequest);
     if (getSchemaCreationStatusResponse.status !== 'PROCESSING') {
       console.log(getSchemaCreationStatusResponse);
       break;
