@@ -1,4 +1,3 @@
 .amplifyrc
 .env
 amplify/
-node_modules/
