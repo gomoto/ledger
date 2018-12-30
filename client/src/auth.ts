@@ -12,6 +12,7 @@ const webAuth = new auth0.WebAuth({
   clientID: settings.AUTH0_CLIENT_ID,
   domain: settings.AUTH0_DOMAIN,
   responseType: 'token', // access token
+  scope: 'read:ledger_entries create:ledger_entries',
 });
 
 const parseHash = promisify(webAuth.parseHash.bind(webAuth));
