@@ -1,5 +1,26 @@
 # Ledger Client
 
+## Local prerequisites
+
+1. Create file `settings.json`:
+
+```bash
+{
+  "AUTH0_API_AUDIENCE": "xxx",
+  "AUTH0_CLIENT_ID": "xxx",
+  "AUTH0_DOMAIN": "xxx.auth0.com",
+  "AUTH0_CALLBACK_PATH": "/authentication",
+  "AUTH0_SILENT_CALLBACK_PATH": "/silent-authentication.html",
+  "AUTH0_SILENT_CALLBACK_MESSAGE_TYPE": "auth0:silent-authentication"
+}
+```
+
+## Auth0 prerequisites
+
+In Auth0 client settings, add callback path and silent-callback path to "Allowed Callback URLs"
+
+## Development
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
