@@ -32,7 +32,7 @@ export class App extends React.Component<AppProps> {
           <button onClick={logout}>Logout</button>
           <Route path="/" exact component={Home} />
           <Route path="/create-entry" component={LedgerEntryCreator} />
-          <Route path="/list-entries" component={LedgerEntryList} />
+          <Route path="/list-entries" render={(props) => <LedgerEntryList {...props} ledgerEntries={this.props.ledgerEntries}/>} />
         </main>
       </BrowserRouter>
     );

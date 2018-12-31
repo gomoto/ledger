@@ -16,7 +16,7 @@ export const AppGql = graphql(getLedgerEntries, {
   options: {
     fetchPolicy: 'cache-and-network'
   },
-  props: (props: any) => ({
-    ledgerEntries: props.data.getLedgerEntries ? props.data.getLedgerEntries.items : []
-  })
+  props: (response: any) => ({
+    ledgerEntries: response.data.getLedgerEntries || []
+  }),
 })(App)
