@@ -5,8 +5,13 @@ import { Home } from './Home';
 import { LedgerEntryCreator } from './LedgerEntryCreator';
 import { LedgerEntryList } from './LedgerEntryList';
 import { logout } from './auth';
+import { LedgerEntry } from './LedgerEntry';
 
-export class App extends React.Component {
+export interface AppProps {
+  ledgerEntries: LedgerEntry[];
+}
+
+export class App extends React.Component<AppProps> {
   render() {
     return (
       <BrowserRouter>

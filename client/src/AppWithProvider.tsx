@@ -1,10 +1,10 @@
 import React from 'react';
 import AWSAppSyncClient, { AUTH_TYPE } from 'aws-appsync';
-import { ApolloProvider } from 'react-apollo';
+import { ApolloProvider, graphql } from 'react-apollo';
 import { Rehydrated } from 'aws-appsync-react';
 import * as settings from './settings.json';
 
-import { App } from './App';
+import { AppGql } from './AppGql';
 import { getAccessToken } from './auth';
 
 const client = new AWSAppSyncClient({
@@ -21,7 +21,7 @@ export class AppWithProvider extends React.Component {
     return (
       <ApolloProvider client={client}>
         <Rehydrated>
-          <App />
+          <AppGql />
         </Rehydrated>
       </ApolloProvider>
     );
