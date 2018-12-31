@@ -3,10 +3,10 @@ import { promisify } from 'es6-promisify';
 import { createBrowserHistory } from 'history';
 import * as settings from './settings.json';
 
-const history = createBrowserHistory();
+// Note: Access token local source of truth is local storage
+const localStorageAccessTokenKey = 'accessToken';
 
-// Access token for the application
-let accessToken = '';
+const history = createBrowserHistory();
 
 const host = `${window.location.protocol}//${window.location.host}`;
 const orignalPathQueryKey = 'original_path';
@@ -36,17 +36,18 @@ export async function authenticate(): Promise<void> {
 }
 
 export function logout(): void {
+  localStorage.removeItem(localStorageAccessTokenKey);
   webAuth.logout({
     returnTo: host,
   });
 }
 
 export function getAccessToken(): string {
-  return accessToken;
+  return localStorage.getItem(localStorageAccessTokenKey) || '';
 }
 
 function setAccessToken(token: string): void {
-  accessToken = token;
+  localStorage.setItem(localStorageAccessTokenKey, token);
 }
 
 /**
@@ -83,7 +84,7 @@ async function authenticationCallback(): Promise<void> {
   if (!decodedHash.accessToken) {
     throw new Error('Access token is empty');
   }
-  setAccessToken(accessToken);
+  setAccessToken(decodedHash.accessToken);
 
   // Redirect to original path
   const url = new URL(window.location.href);
