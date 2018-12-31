@@ -23,19 +23,16 @@ const parseHash = promisify(webAuth.parseHash.bind(webAuth));
 // renewAuth response type is any...
 const renewAuth = promisify(<(options: auth0.RenewAuthOptions, cb: auth0.Auth0Callback<Auth0RenewAuthResponse>) => any> webAuth.renewAuth.bind(webAuth));
 
-export async function authenticate(): Promise<AuthenticateResponse> {
-  // Get access token from URL.
-  // User redirected from Auth0 with access token in URL hash.
+export async function authenticate(): Promise<void> {
   if (window.location.pathname === settings.AUTH0_CALLBACK_PATH) {
+    // Get access token from URL.
+    // User redirected from Auth0 with access token in URL hash.
     await authenticationCallback();
-  }
-  // Get access token from silent-authentication.
-  // User navigated directly to application.
-  else {
+  } else {
+    // Get access token from silent-authentication.
+    // User navigated directly to application.
     await authenticateWithAuth0();
-
   }
-  return {error: null};
 }
 
 export function logout(): void {
@@ -105,10 +102,6 @@ export function silentAuthenticationCallback(): void {
     message.type = settings.AUTH0_SILENT_CALLBACK_MESSAGE_TYPE;
     parent.postMessage(message, host);
   });
-}
-
-export interface AuthenticateResponse {
-  error: Error | null;
 }
 
 export interface Auth0RenewAuthResponse extends auth0.Auth0DecodedHash {

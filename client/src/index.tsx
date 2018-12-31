@@ -7,11 +7,7 @@ import { authenticate } from './auth';
 
 // Application bootstrap
 async function main() {
-  const { error } = await authenticate();
-  if (error) {
-    console.error(error);
-    return;
-  }
+  await authenticate();
 
   ReactDOM.render(<App />, document.getElementById('root'));
 
@@ -21,4 +17,8 @@ async function main() {
   serviceWorker.unregister();
 }
 
-main();
+main()
+.catch((error) => {
+  console.log('Application failed to bootstrap');
+  console.error(error);
+});
