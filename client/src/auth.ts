@@ -24,30 +24,16 @@ const parseHash = promisify(webAuth.parseHash.bind(webAuth));
 const renewAuth = promisify(<(options: auth0.RenewAuthOptions, cb: auth0.Auth0Callback<Auth0RenewAuthResponse>) => any> webAuth.renewAuth.bind(webAuth));
 
 export async function authenticate(): Promise<AuthenticateResponse> {
-  // User redirected from Auth0 with access token in URL hash
+  // Get access token from URL.
+  // User redirected from Auth0 with access token in URL hash.
   if (window.location.pathname === settings.AUTH0_CALLBACK_PATH) {
     await authenticationCallback();
   }
-  // User navigated directly to application
+  // Get access token from silent-authentication.
+  // User navigated directly to application.
   else {
-    // Renew access token each time user loads page
-    // If user is signed in via SSO, token should be renewed.
-    // If user is not signed in, redirect to Auth0 to start authentication flow.
-    const decodedHash = await renewAuth({
-      redirectUri: `${host}${settings.AUTH0_SILENT_CALLBACK_PATH}`,
-      usePostMessage: true,
-      postMessageDataType: settings.AUTH0_SILENT_CALLBACK_MESSAGE_TYPE,
-    });
-    if (decodedHash.error === 'login_required') {
-      webAuth.authorize({
-        redirectUri: `${host}${settings.AUTH0_CALLBACK_PATH}?${orignalPathQueryKey}=${window.location.pathname}`,
-      });
-      return {error: new Error('Login required')};
-    }
-    if (!decodedHash.accessToken) {
-      return {error: new Error('Access token is empty')};
-    }
-    setAccessToken(decodedHash.accessToken);
+    await authenticateWithAuth0();
+
   }
   return {error: null};
 }
@@ -62,11 +48,37 @@ export function getAccessToken(): string {
   return accessToken;
 }
 
-export function setAccessToken(token: string): void {
+function setAccessToken(token: string): void {
   accessToken = token;
 }
 
-export async function authenticationCallback(): Promise<void> {
+/**
+ * If user is signed in via SSO, get access token from Auth0.
+ * If user is not signed in, redirect to Auth0 to start authentication flow.
+ */
+async function authenticateWithAuth0(): Promise<void> {
+  const decodedHash = await renewAuth({
+    redirectUri: `${host}${settings.AUTH0_SILENT_CALLBACK_PATH}`,
+    usePostMessage: true,
+    postMessageDataType: settings.AUTH0_SILENT_CALLBACK_MESSAGE_TYPE,
+  });
+  if (decodedHash.error === 'login_required') {
+    webAuth.authorize({
+      redirectUri: `${host}${settings.AUTH0_CALLBACK_PATH}?${orignalPathQueryKey}=${window.location.pathname}`,
+    });
+    console.warn('Login required');
+    return;
+  }
+  if (!decodedHash.accessToken) {
+    throw new Error('Access token is empty');
+  }
+  setAccessToken(decodedHash.accessToken);
+}
+
+/**
+ * Called when user arrives at application via Auth0 callback.
+ */
+async function authenticationCallback(): Promise<void> {
   const decodedHash = await parseHash({hash: window.location.hash});
   if (decodedHash === null) {
     throw new Error('Cannot parse hash from callback URL');
@@ -75,13 +87,16 @@ export async function authenticationCallback(): Promise<void> {
     throw new Error('Access token is empty');
   }
   setAccessToken(accessToken);
+
   // Redirect to original path
   const url = new URL(window.location.href);
   const originalPath = url.searchParams.get(orignalPathQueryKey) || '/';
   history.push(originalPath);
 }
 
-// Used by silent-authentication.html
+/**
+ * Used by silent-authentication.html
+ */
 export function silentAuthenticationCallback(): void {
   webAuth.parseHash({hash: window.location.hash}, (err, result) => {
     // Let silent-authentication callback know how to wait for the
