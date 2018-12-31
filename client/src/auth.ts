@@ -1,11 +1,15 @@
 import * as auth0 from 'auth0-js';
 import { promisify } from 'es6-promisify';
+import { createBrowserHistory } from 'history';
 import * as settings from './settings.json';
+
+const history = createBrowserHistory();
 
 // Access token for the application
 let accessToken = '';
 
 const host = `${window.location.protocol}//${window.location.host}`;
+const orignalPathQueryKey = 'original_path';
 
 const webAuth = new auth0.WebAuth({
   audience: settings.AUTH0_API_AUDIENCE,
@@ -22,14 +26,7 @@ const renewAuth = promisify(<(options: auth0.RenewAuthOptions, cb: auth0.Auth0Ca
 export async function authenticate(): Promise<AuthenticateResponse> {
   // User redirected from Auth0 with access token in URL hash
   if (window.location.pathname === settings.AUTH0_CALLBACK_PATH) {
-    const decodedHash = await parseHash({hash: window.location.hash});
-    if (decodedHash === null) {
-      return {error: new Error('Cannot parse hash from callback URL')};
-    }
-    if (!decodedHash.accessToken) {
-      return {error: new Error('Access token is empty')};
-    }
-    accessToken = decodedHash.accessToken;
+    await authenticationCallback();
   }
   // User navigated directly to application
   else {
@@ -43,14 +40,14 @@ export async function authenticate(): Promise<AuthenticateResponse> {
     });
     if (decodedHash.error === 'login_required') {
       webAuth.authorize({
-        redirectUri: `${host}${settings.AUTH0_CALLBACK_PATH}`,
+        redirectUri: `${host}${settings.AUTH0_CALLBACK_PATH}?${orignalPathQueryKey}=${window.location.pathname}`,
       });
       return {error: new Error('Login required')};
     }
     if (!decodedHash.accessToken) {
       return {error: new Error('Access token is empty')};
     }
-    accessToken = decodedHash.accessToken;
+    setAccessToken(decodedHash.accessToken);
   }
   return {error: null};
 }
@@ -63,6 +60,25 @@ export function logout(): void {
 
 export function getAccessToken(): string {
   return accessToken;
+}
+
+export function setAccessToken(token: string): void {
+  accessToken = token;
+}
+
+export async function authenticationCallback(): Promise<void> {
+  const decodedHash = await parseHash({hash: window.location.hash});
+  if (decodedHash === null) {
+    throw new Error('Cannot parse hash from callback URL');
+  }
+  if (!decodedHash.accessToken) {
+    throw new Error('Access token is empty');
+  }
+  setAccessToken(accessToken);
+  // Redirect to original path
+  const url = new URL(window.location.href);
+  const originalPath = url.searchParams.get(orignalPathQueryKey) || '/';
+  history.push(originalPath);
 }
 
 // Used by silent-authentication.html
@@ -82,4 +98,9 @@ export interface AuthenticateResponse {
 
 export interface Auth0RenewAuthResponse extends auth0.Auth0DecodedHash {
   error: auth0.LoginRequiredErrorCode;
-};
+}
+
+export interface AuthenticationCallbackResponse {
+  accessToken: string | null;
+  error: Error | null;
+}
