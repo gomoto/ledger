@@ -6,6 +6,8 @@
 
 ```bash
 {
+  "APPSYNC_REGION": "us-west-2",
+  "APPSYNC_URL": "https://xxx.appsync-api.us-west-2.amazonaws.com/graphql",
   "AUTH0_API_AUDIENCE": "xxx",
   "AUTH0_CLIENT_ID": "xxx",
   "AUTH0_DOMAIN": "xxx.auth0.com",
