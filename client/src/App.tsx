@@ -5,7 +5,7 @@ import { Home } from './Home';
 import { LedgerEntryCreator } from './LedgerEntryCreator';
 import { LedgerEntryList } from './LedgerEntryList';
 
-class App extends React.Component {
+export class App extends React.Component {
   render() {
     return (
       <BrowserRouter>
@@ -31,5 +31,3 @@ class App extends React.Component {
     );
   }
 }
-
-export default App;
