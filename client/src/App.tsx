@@ -4,6 +4,7 @@ import './App.css';
 import { Home } from './Home';
 import { LedgerEntryCreator } from './LedgerEntryCreator';
 import { LedgerEntryList } from './LedgerEntryList';
+import { logout } from './auth';
 
 export class App extends React.Component {
   render() {
@@ -23,6 +24,7 @@ export class App extends React.Component {
               </li>
             </ul>
           </nav>
+          <button onClick={logout}>Logout</button>
           <Route path="/" exact component={Home} />
           <Route path="/create-entry" component={LedgerEntryCreator} />
           <Route path="/list-entries" component={LedgerEntryList} />

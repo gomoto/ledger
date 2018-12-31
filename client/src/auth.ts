@@ -55,6 +55,12 @@ export async function authenticate(): Promise<AuthenticateResponse> {
   return {error: null};
 }
 
+export function logout(): void {
+  webAuth.logout({
+    returnTo: host,
+  });
+}
+
 export function getAccessToken(): string {
   return accessToken;
 }
