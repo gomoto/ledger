@@ -18,7 +18,6 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json --outDir build",
     "start": "node build/index.js",
-    "dev:start": "PORT=4000 node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
