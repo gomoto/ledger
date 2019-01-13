@@ -17,7 +17,8 @@
   },
   "scripts": {
     "prebuild": "rm -rf build",
-    "build": "tsc -p tsconfig.build.json --outDir build",
+    "build": "tsc -p tsconfig.build.json --outDir build; npm run copy",
+    "copy": "cp src2/schema.graphql build/schema.graphql",
     "start": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

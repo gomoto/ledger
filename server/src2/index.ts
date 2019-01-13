@@ -1,19 +1,18 @@
 import express = require('express');
 import { ApolloServer, gql } from 'apollo-server-express';
 import { config } from './config';
+import fs = require('fs');
+import path = require('path');
 
-// Construct a schema, using GraphQL schema language
-const typeDefs = gql`
-  type Query {
-    hello: String
-  }
-`;
+// Schema
+const schema = fs.readFileSync(path.resolve(__dirname, './schema.graphql'));
+const typeDefs = gql`${schema}`;
 
 // Provide resolver functions for your schema fields
 const resolvers = {
-  Query: {
-    hello: () => 'Hello world!',
-  },
+  // Query: {
+  //   hello: () => 'Hello world!',
+  // },
 };
 
 const server = new ApolloServer({ typeDefs, resolvers });
