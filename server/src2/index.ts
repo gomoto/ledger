@@ -5,7 +5,7 @@ import fs = require('fs');
 import path = require('path');
 
 // Resolvers
-import {getLedgerEntries} from './resolvers';
+import {getLedgerEntries, createLedgerEntry} from './resolvers';
 
 // Schema
 const schema = fs.readFileSync(path.resolve(__dirname, './schema.graphql'));
@@ -15,6 +15,9 @@ const typeDefs = gql`${schema}`;
 const resolvers = {
   Query: {
     getLedgerEntries,
+  },
+  Mutation: {
+    createLedgerEntry,
   },
 };
 
