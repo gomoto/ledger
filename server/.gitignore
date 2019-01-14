@@ -1,2 +1,4 @@
+/build
 /node_modules
-.env
+graphql-types.d.ts
+keyfile.json

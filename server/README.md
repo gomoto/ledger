@@ -2,40 +2,27 @@
 
 ## Develop
 
-### AWS prerequisites
+### Development prerequisites
 
-1. Create AppSync API
+1. Create file `keyfile.json` in root of server directory by following these instructions:
+https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually
 
-2. Create DynamoDB table
+### Development procedure
 
-### Local prerequisites
+1. Edit schema or code.
 
-1. Create file `.env`:
+2. `npm run build`
 
-```bash
-AWS_ACCESS_KEY_ID=xxx
-AWS_SECRET_ACCESS_KEY=xxx
-AWS_REGION=us-west-2
-APPSYNC_API_ID=xxx
-APPSYNC_API_KEY=xxx
-APPSYNC_API_URL=https://xxx.appsync-api.<region>.amazonaws.com/graphql
-```
+3. `PORT=8081 npm start`
 
-### Working with the GraphQL Schema
+4. Go to http://localhost:8081/graphql to make interactive graphql requests
 
-1. Edit [schema file](./src/schema.graphql).
+## Deploy
 
-2. Push file to AWS AppSync:
+### Deployment prerequisites
 
-```bash
-env $(cat .env | xargs) node_modules/.bin/ts-node scripts/save-schema.ts
-# Response
-{
-    "status": "SUCCESS",
-    "details": "Successfully created schema with 4 types."
-}
-```
+`gcloud app create`
 
-### Make sample queries
+### Deployment procedure
 
-env $(cat .env | xargs) node_modules/.bin/ts-node src/getLedgerEntries/query.ts
+`gcloud app deploy`

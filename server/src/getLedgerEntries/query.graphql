@@ -1,5 +1,0 @@
-{
-  getLedgerEntries {
-    id
-  }
-}
