@@ -6,14 +6,13 @@
 
 ```bash
 {
-  "APPSYNC_REGION": "us-west-2",
-  "APPSYNC_URL": "https://xxx.appsync-api.us-west-2.amazonaws.com/graphql",
   "AUTH0_API_AUDIENCE": "xxx",
   "AUTH0_CLIENT_ID": "xxx",
   "AUTH0_DOMAIN": "xxx.auth0.com",
   "AUTH0_CALLBACK_PATH": "/authentication",
   "AUTH0_SILENT_CALLBACK_PATH": "/silent-authentication.html",
-  "AUTH0_SILENT_CALLBACK_MESSAGE_TYPE": "auth0:silent-authentication"
+  "AUTH0_SILENT_CALLBACK_MESSAGE_TYPE": "auth0:silent-authentication",
+  "SERVER_URL": "http://localhost:8081/graphql"
 }
 ```
 
