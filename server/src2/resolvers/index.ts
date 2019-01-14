@@ -2,14 +2,15 @@ import {
   MutationToCreateLedgerEntryResolver,
   QueryToGetLedgerEntriesResolver,
   LedgerEntry,
-  LedgerEntryCreationInput,
 } from '../graphql-types';
 import {datastore} from '../datastore';
-import {buildId} from '../build-id';
 import Datastore = require('@google-cloud/datastore');
+const uuidv4 = require('uuid/v4');
 
 interface QueryResponseEntityDatastoreKey {
-  id: string;
+  // Use name, never id, for every datastore entity in this app
+  id: never;
+  name: string;
   kind: string;
   namespace: string;
   // path: any;
@@ -24,7 +25,7 @@ const getLedgerEntries: QueryToGetLedgerEntriesResolver = async function() {
   const ledgerEntries: LedgerEntry[] = entities.map((entity: QueryResponseEntity<LedgerEntry>) => {
     const key = entity[Datastore.KEY];
     return {
-      id: buildId(key),
+      id: key.name,
       amount: entity.amount,
       creator: entity.creator,
     };
@@ -33,18 +34,16 @@ const getLedgerEntries: QueryToGetLedgerEntriesResolver = async function() {
 }
 
 const createLedgerEntry: MutationToCreateLedgerEntryResolver = async function(parent, args, context) {
-  const key = datastore.key(['LedgerEntry']);
-  const data: LedgerEntryCreationInput = {
+  const id = uuidv4();
+  const key = datastore.key(['LedgerEntry', id]);
+  const data = {
     amount: args.input.amount,
     creator: args.input.creator,
   };
   const payload = {key, data};
   const result = await datastore.insert(payload);
   if (result) {
-    // Get id from original key object instead of mutation result.
-    // Mutation result types don't match real object.
-    // Original key object is mutated by insert() upon successful insert.
-    return buildId({id: key.id, kind: key.kind});
+    return id;
   }
 }
 
