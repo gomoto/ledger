@@ -4,6 +4,6 @@
     "esModuleInterop": true
   },
   "include": [
-    "src2/**/*.ts"
+    "src/**/*.ts"
   ]
 }

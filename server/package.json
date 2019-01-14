@@ -23,7 +23,7 @@
     "prebuild": "rm -rf build",
     "build": "npm run generate-types; npm run compile; npm run copy",
     "compile": "tsc -p tsconfig.build.json --outDir build",
-    "copy": "cp src2/schema.graphql build/schema.graphql",
+    "copy": "cp src/schema.graphql build/schema.graphql",
     "generate-types": "scripts/generate-types.sh",
     "start": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
