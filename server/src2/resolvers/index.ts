@@ -1,12 +1,15 @@
 import {
   MutationToCreateLedgerEntryResolver,
   QueryToGetLedgerEntriesResolver,
+  LedgerEntry,
 } from '../graphql-types';
+import {datastore} from '../datastore';
 
 const getLedgerEntries: QueryToGetLedgerEntriesResolver = async function() {
-  return [
-    {id: 'dummy-id', amount: 8.12, creator: null}
-  ];
+  const query = datastore.createQuery('LedgerEntry');
+  const response = await datastore.runQuery(query);
+  const entities = <LedgerEntry[]> response[0];
+  return entities;
 }
 
 const createLedgerEntry: MutationToCreateLedgerEntryResolver = async function(parent, args, context) {
