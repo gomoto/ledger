@@ -1,13 +1,11 @@
 # Ledger Server
 
-## Develop
-
-### Development prerequisites
+## Prerequisites
 
 1. Create file `keyfile.json` in root of server directory by following these instructions:
 https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually
 
-2. Create file `auth0.json` in root of server directory:
+2. Create file `auth0.json` in root of server directory that looks like this:
 ```json
 {
   "audience": "<auth0-audience>",
@@ -15,7 +13,7 @@ https://cloud.google.com/docs/authentication/production#obtaining_and_providing_
 }
 ```
 
-### Development procedure
+## Develop
 
 1. Edit schema or code.
 
@@ -26,11 +24,5 @@ https://cloud.google.com/docs/authentication/production#obtaining_and_providing_
 4. Go to http://localhost:8081/graphql to make interactive graphql requests
 
 ## Deploy
-
-### Deployment prerequisites
-
-`gcloud app create`
-
-### Deployment procedure
 
 `gcloud app deploy`
