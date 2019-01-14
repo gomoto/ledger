@@ -1,4 +1,5 @@
 /build
 /node_modules
+auth0.json
 graphql-types.d.ts
 keyfile.json
