@@ -8,7 +8,7 @@ type Query {
 }
 
 type Mutation {
-  createLedgerEntry(input: LedgerEntryCreationInput!): LedgerEntry
+  createLedgerEntry(input: LedgerEntryCreationInput!): ID
 }
 
 type LedgerEntry {
