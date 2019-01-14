@@ -1,41 +1,16 @@
 # Ledger Server
 
+## Local prerequisites
+
+1. Create file `keyfile.json` in root of server directory by following these instructions:
+https://cloud.google.com/docs/authentication/production#obtaining_and_providing_service_account_credentials_manually
+
 ## Develop
 
-### AWS prerequisites
+1. Edit schema or code.
 
-1. Create AppSync API
+2. `npm run build`
 
-2. Create DynamoDB table
+3. `PORT=8081 npm start`
 
-### Local prerequisites
-
-1. Create file `.env`:
-
-```bash
-AWS_ACCESS_KEY_ID=xxx
-AWS_SECRET_ACCESS_KEY=xxx
-AWS_REGION=us-west-2
-APPSYNC_API_ID=xxx
-APPSYNC_API_KEY=xxx
-APPSYNC_API_URL=https://xxx.appsync-api.<region>.amazonaws.com/graphql
-```
-
-### Working with the GraphQL Schema
-
-1. Edit [schema file](./src/schema.graphql).
-
-2. Push file to AWS AppSync:
-
-```bash
-env $(cat .env | xargs) node_modules/.bin/ts-node scripts/save-schema.ts
-# Response
-{
-    "status": "SUCCESS",
-    "details": "Successfully created schema with 4 types."
-}
-```
-
-### Make sample queries
-
-env $(cat .env | xargs) node_modules/.bin/ts-node src/getLedgerEntries/query.ts
+4. Go to http://localhost:8081/graphql to make interactive graphql requests
