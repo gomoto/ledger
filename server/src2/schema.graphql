@@ -8,14 +8,16 @@ type Query {
 }
 
 type Mutation {
-  createLedgerEntry(
-    amount: Float!
-    creator: String!
-  ): LedgerEntry
+  createLedgerEntry(input: LedgerEntryCreationInput!): LedgerEntry
 }
 
 type LedgerEntry {
   id: ID!
   amount: Float
   creator: String
+}
+
+input LedgerEntryCreationInput {
+  amount: Float!
+  creator: String!
 }
