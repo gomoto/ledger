@@ -5,12 +5,31 @@ import {
   LedgerEntryCreationInput,
 } from '../graphql-types';
 import {datastore} from '../datastore';
+import {buildId} from '../build-id';
+import Datastore = require('@google-cloud/datastore');
+
+interface QueryResponseEntityDatastoreKey {
+  id: string;
+  kind: string;
+  namespace: string;
+  // path: any;
+}
+
+type QueryResponseEntity<T> = T & {[Datastore.KEY]: QueryResponseEntityDatastoreKey};
 
 const getLedgerEntries: QueryToGetLedgerEntriesResolver = async function() {
   const query = datastore.createQuery('LedgerEntry');
   const response = await datastore.runQuery(query);
-  const entities = <LedgerEntry[]> response[0];
-  return entities;
+  const entities = response[0];
+  const ledgerEntries: LedgerEntry[] = entities.map((entity: QueryResponseEntity<LedgerEntry>) => {
+    const key = entity[Datastore.KEY];
+    return {
+      id: buildId(key),
+      amount: entity.amount,
+      creator: entity.creator,
+    };
+  });
+  return ledgerEntries;
 }
 
 const createLedgerEntry: MutationToCreateLedgerEntryResolver = async function(parent, args, context) {
@@ -25,7 +44,7 @@ const createLedgerEntry: MutationToCreateLedgerEntryResolver = async function(pa
     // Get id from original key object instead of mutation result.
     // Mutation result types don't match real object.
     // Original key object is mutated by insert() upon successful insert.
-    return `${key.id}`;
+    return buildId({id: key.id, kind: key.kind});
   }
 }
 
