@@ -4,6 +4,7 @@ import { config } from './config';
 import fs = require('fs');
 import path = require('path');
 import bodyParser = require('body-parser');
+import cors = require('cors');
 
 // Resolvers
 import {resolvers} from './resolvers';
@@ -16,6 +17,7 @@ const typeDefs = gql`${schema}`;
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
+app.use(cors());
 app.use(authenticationRequired());
 app.use(bodyParser.json());
 server.applyMiddleware({ app });
