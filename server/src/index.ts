@@ -3,6 +3,7 @@ import { ApolloServer, gql } from 'apollo-server-express';
 import { config } from './config';
 import fs = require('fs');
 import path = require('path');
+import bodyParser = require('body-parser');
 
 // Resolvers
 import {resolvers} from './resolvers';
@@ -14,6 +15,7 @@ const typeDefs = gql`${schema}`;
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
+app.use(bodyParser.json());
 server.applyMiddleware({ app });
 
 app.listen({ port: config.port }, () =>
