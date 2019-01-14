@@ -1,20 +1,15 @@
-import {LedgerEntry} from '../interfaces/ledger-entry';
+import {
+  MutationToCreateLedgerEntryResolver,
+  QueryToGetLedgerEntriesResolver,
+} from '../graphql-types';
 
-async function getLedgerEntries(): Promise<LedgerEntry[]> {
+const getLedgerEntries: QueryToGetLedgerEntriesResolver = async function() {
   return [
-    {id: 'dummy-id', amount: 8.12}
+    {id: 'dummy-id', amount: 8.12, creator: null}
   ];
 }
 
-interface RootValue {}
-
-interface Context {}
-
-async function createLedgerEntry(
-  parent: RootValue,
-  args: {amount: number, creator: string},
-  context: Context,
-): Promise<LedgerEntry> {
+const createLedgerEntry: MutationToCreateLedgerEntryResolver = async function(parent, args, context) {
   return {id: 'dummy-id', amount: args.amount, creator: args.creator};
 }
 
