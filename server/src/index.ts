@@ -7,6 +7,7 @@ import bodyParser = require('body-parser');
 
 // Resolvers
 import {resolvers} from './resolvers';
+import { authenticationRequired } from './middleware/authentication-required';
 
 // Schema
 const schema = fs.readFileSync(path.resolve(__dirname, './schema.graphql'));
@@ -15,6 +16,7 @@ const typeDefs = gql`${schema}`;
 const server = new ApolloServer({ typeDefs, resolvers });
 
 const app = express();
+app.use(authenticationRequired());
 app.use(bodyParser.json());
 server.applyMiddleware({ app });
 
