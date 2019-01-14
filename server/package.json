@@ -36,8 +36,6 @@
     "url": "git+https://github.com/gomoto/ledger.git"
   },
   "keywords": [
-    "aws",
-    "appsync",
     "graphql"
   ]
 }
