@@ -18,10 +18,11 @@
   },
   "scripts": {
     "prebuild": "rm -rf build",
-    "build": "npm run generate-types; tsc -p tsconfig.build.json --outDir build; npm run copy",
+    "build": "npm run generate-types; npm run compile; npm run copy",
+    "compile": "tsc -p tsconfig.build.json --outDir build",
     "copy": "cp src2/schema.graphql build/schema.graphql",
-    "start": "node build/index.js",
     "generate-types": "scripts/generate-types.sh",
+    "start": "node build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "engines": {
